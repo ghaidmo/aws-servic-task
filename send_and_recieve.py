@@ -5,10 +5,6 @@ from os import getenv
 
 LOCALSTACK_ENDPOINT_URL = getenv("AWS_ENDPOINT_URL")
 
-client = boto3.client(
-    "sqs", endpoint_url=LOCALSTACK_ENDPOINT_URL)
-
-
 response = client.send_message(
     QueueUrl=queue.url,
     MessageBody='Test Message',
@@ -21,8 +17,8 @@ A = client.receive_message(
 
 
 )
-print(A)
-response = client.delete_message(
-    QueueUrl='http://localhost:4566/000000000000/MyQueue',
-    ReceiptHandle='msrctrjxsafaypqmgtjoeavwarmnouumrryqlkmmnlcjiggwtxsciukpdirkegyggshulyjtwyeuyisbmujqxzbghmczcmezrbxxmohtsczjqmugjtvmzzcnivzezxtanuvibqnrlojzlhpnhbgzegkbccbrswkwoobzazsxnubxegolwiubqzutj'
+print(A['Messages'][0]['Body'])
+client.delete_message(
+    QueueUrl=queue.url,
+    ReceiptHandle=A['Messages'][0]['ReceiptHandle']
 )

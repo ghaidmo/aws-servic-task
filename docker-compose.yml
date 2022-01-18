@@ -1,0 +1,30 @@
+version: '2.4'
+
+services:
+  aws-service-task-base:
+    image: aws-service-task-base-image
+    build:
+      context: .
+    container_name: aws-service-task-base
+    volumes:
+      - .:/app
+    environment:
+      - AWS_ENDPOINT_URL=http://aws-local:4566
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=placeholder
+      - AWS_SECRET_ACCESS_KEY=placeholder
+
+  ghaids-service:
+    extends: aws-service-task-base
+    container_name: ghaids-service
+    depends_on:
+      - aws-local
+    command: [ "python", "main.py" ]
+
+  aws-local:
+    container_name: aws-local
+    image: localstack/localstack:0.12.11
+    environment:
+      - SERVICES=sns,sqs
+    ports:
+      - "4566"

@@ -19,7 +19,7 @@ services:
     container_name: ghaids-service
     depends_on:
       - aws-local
-    command: [ "python", "main.py" ]
+    command: [ "python", "create_topics.py" ]
 
   aws-local:
     container_name: aws-local

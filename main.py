@@ -1,11 +1,14 @@
 from urllib import response
 import boto3
 from os import getenv
-
-from websockets import client
-
 LOCALSTACK_ENDPOINT_URL = getenv("AWS_ENDPOINT_URL")
 
-print(getenv('AWS_ACCESS_KEY_ID'))
+client = boto3.client(
+    "sns", endpoint_url=LOCALSTACK_ENDPOINT_URL)
+response = client.create_topic(
+    Name='MyTopic'
+)
 
-print(boto3.client("sns", endpoint_url=LOCALSTACK_ENDPOINT_URL).list_topics())
+topics_list = client.list_topics()
+for i in topics_list['Topics']:
+    print(i['TopicArn'])

@@ -19,7 +19,7 @@ services:
     container_name: ghaids-service
     depends_on:
       - aws-local
-    command: [ "python", "send_and_recieve.py" ]
+    command: [ "python", "subscribe_sqs_to_sns.py" ]
 
   aws-local:
     container_name: aws-local

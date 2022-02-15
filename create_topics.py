@@ -5,4 +5,4 @@ response = client.create_topic(
 
 topics_list = client.list_topics()
 for i in topics_list['Topics']:
-    print(i['TopicArn'])
+    print(i)
